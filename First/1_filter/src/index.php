@@ -16,11 +16,11 @@ $preset_urls = [
 function check($key){
     $blacklist = [
         'file', 'phar', 'zip', 'data', 'glob', 'expect', 'ftp',
-        'passwd', 'shadow', 'etc',
-        'base64',  'string',  'rot13', 
+        'etc', 'proc',
+        'base64',  'string',  'rot13', 'quoted', 'zlib', 'input', 'ter/res',
         'eval', 'system', 'exec', 'shell_exec', 'popen', 'passthru', 'echo'
     ];
-
+    
     foreach ($blacklist as $keyword){
         if (stripos($key, $keyword) !== false){
             return false;
@@ -47,19 +47,13 @@ if (!empty($imageUrl)) {
             $imageContent = @file_get_contents($imageUrl);
             
             if ($imageContent !== false && !empty($imageContent)) {
+                $imageInfo = @getimagesizefromstring($imageContent);
                 
-                if (stripos($imageContent, 'sdpcsec{') !== false) {
-                    $html_output = '<span style="color:#ef4444; font-weight: bold;">Waf!!!</span>';
-                } 
-                else {
-                    $imageInfo = @getimagesizefromstring($imageContent);
-                    
-                    if ($imageInfo) {
-                        $html_output = '<div class="avatar-frame"><img src="' . htmlspecialchars($imageUrl) . '" class="avatar-img"></div>';
-                    } else {
-                        $error = '无法识别的图片格式,内容为: ';
-                        $html_output = '<div style="white-space: pre-wrap; word-break: break-all; color:#f59e0b; font-weight: bold;">' . $error . $imageContent . '</div>';
-                    }
+                if ($imageInfo) {
+                    $html_output = '<div class="avatar-frame"><img src="' . htmlspecialchars($imageUrl) . '" class="avatar-img"></div>';
+                } else {
+                    $error = '无法识别的图片格式,内容为: ';
+                    $html_output = '<div style="white-space: pre-wrap; word-break: break-all; color:#f59e0b; font-weight: bold;">' . $error . $imageContent . '</div>';
                 }
 
             } else {

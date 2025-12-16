@@ -16,7 +16,9 @@ WORKDIR /var/www/html
 COPY ./src /var/www/html/
 
 RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 555 /var/www/html
+    chmod -R 555 /var/www/html && \
+    chmod 700 /init.sh && \
+    chown root:root /init.sh
 
 EXPOSE 80
 

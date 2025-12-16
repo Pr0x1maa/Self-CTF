@@ -13,6 +13,6 @@ mysql -e "FLUSH PRIVILEGES;"
 
 FLAG_VALUE=${GZCTF_FLAG:-"Pr0{T2s7_F12g}"}
 
-mysql -e "USE Terra_Data;INSERT INTO secret (id, value, message) VALUES (0, 'FLAG', '$FLAG_VALUE');"
+mysql -e "USE Terra_Data;INSERT INTO secret (id, value, flag) VALUES (0, 'FLAG', '$FLAG_VALUE');"
 
 python3 /app/app.py

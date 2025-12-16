@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>断章 | search</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap');
+
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg: #050510;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg);
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: zoom 100s infinite linear;
+            opacity: 0.5;
+        }
+
+        @keyframes zoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(2); }
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            width: 400px;
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 60px rgba(112, 0, 255, 0.2);
+        }
+
+        h2 {
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--primary), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
+        }
+
+        p.subtitle {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 5px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        input[type="text"]:focus {
+            border-bottom-color: var(--primary);
+            box-shadow: 0 4px 4px -4px var(--primary);
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 1px;
+        }
+
+        input[type="submit"] {
+            background: linear-gradient(45deg, transparent 5%, var(--primary) 5%);
+            color: #000;
+            font-weight: 700;
+            border: none;
+            padding: 12px 30px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: 0.3s;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 95% 100%, 0 100%);
+        }
+
+        input[type="submit"]:hover {
+            background: linear-gradient(45deg, transparent 5%, var(--secondary) 5%);
+            color: #fff;
+            box-shadow: 0 0 20px var(--secondary);
+        }
+        
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .user-info {
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-logout {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            transition: 0.3s;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            background: rgba(112, 0, 255, 0.1);
+        }
+
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scan 3s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { top: 100%; opacity: 0; }
+        }
+        
+        .footer-info {
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="scan-line"></div>
+    
+    <div class="top-bar">
+        <a href="/logout" class="btn-logout">LOGOUT</a>
+    </div>
+    
+    <div class="container">
+        <div class="card">
+            <h2>Terra Database</h2>
+            <p class="subtitle">In the gaps of the galaxy, the archives of Terra lie dormant.</p>
+            
+            <form action="/search" method="GET">
+                <div class="input-group">
+                    <input type="text" name="id" placeholder="输入想要查询的id" autocomplete="off">
+                </div>
+                <input type="submit" value="Search">
+            </form>
+
+            <div class="footer-info">
+                Can You Find The Secret?
+            </div>
+        </div>
+    </div>
+</body>
+</html>
